@@ -188,6 +188,10 @@ type BackupManifest struct {
 	// FinishedTime is the time (in RFC 3339 format, UTC) at which the backup finished, if known.
 	// Some backups may not set this field if they were created before the field was added.
 	FinishedTime string
+
+	// A URI where the files can be found
+	StorageLocation string
+	StoragePath     string
 }
 
 // FindBackupToRestore returns a selected candidate backup to be restored.

@@ -37,6 +37,7 @@ import (
 	"vitess.io/vitess/go/vt/hook"
 	"vitess.io/vitess/go/vt/log"
 	"vitess.io/vitess/go/vt/mysqlctl/backupstorage"
+	"vitess.io/vitess/go/vt/mysqlctl/filebackupstorage"
 	"vitess.io/vitess/go/vt/proto/vtrpc"
 	"vitess.io/vitess/go/vt/topo"
 	"vitess.io/vitess/go/vt/topo/topoproto"
@@ -333,14 +334,19 @@ func (be *BuiltinBackupEngine) backupFiles(ctx context.Context, params BackupPar
 		}
 	}()
 
+	storageHost, _ := os.Hostname()
+	storagePath := fmt.Sprintf("%s/%s", *filebackupstorage.FileBackupStorageRoot, bh.Directory())
+
 	// JSON-encode and write the MANIFEST
 	bm := &builtinBackupManifest{
 		// Common base fields
 		BackupManifest: BackupManifest{
-			BackupMethod: builtinBackupEngineName,
-			Position:     replicationPosition,
-			BackupTime:   params.BackupTime.UTC().Format(time.RFC3339),
-			FinishedTime: time.Now().UTC().Format(time.RFC3339),
+			BackupMethod:    builtinBackupEngineName,
+			Position:        replicationPosition,
+			BackupTime:      params.BackupTime.UTC().Format(time.RFC3339),
+			FinishedTime:    time.Now().UTC().Format(time.RFC3339),
+			StorageLocation: storageHost,
+			StoragePath:     storagePath,
 		},
 
 		// Builtin-specific fields
