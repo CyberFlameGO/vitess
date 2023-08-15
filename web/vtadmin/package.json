@@ -79,7 +79,7 @@
     "@types/lodash-es": "^4.17.4",
     "msw": "^0.24.4",
     "prettier": "^2.2.1",
-    "protobufjs": "^6.10.2",
+    "protobufjs": "^6.11.4",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0"
   }
